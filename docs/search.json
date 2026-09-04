@@ -39,7 +39,7 @@
     "href": "weekly-notes/index.html",
     "title": "Weekly Notes",
     "section": "",
-    "text": "Week 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Week 2: dplyr & Census\n\n\nTable functions and ACS data.\n\n\n\n\n\nSep 4, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -114,36 +114,36 @@
   {
     "objectID": "weekly-notes/week-02.html",
     "href": "weekly-notes/week-02.html",
-    "title": "Week 1: Getting Set Up",
+    "title": "Week 2: dplyr & Census",
     "section": "",
-    "text": "Set up R, RStudio, Quarto, and GitHub Desktop for the course\nLearned how RStudio, GitHub, and my live portfolio website work together\nLearned the difference between source files (.qmd) and the output files in docs/\nCreated my own MUSA 5080 portfolio using a GitHub template\nLearned the basic workflow: edit → save → render → commit → push\nUsed Quarto to render my files into a website\nLearned how GitHub Pages publishes the portfolio online\nSet up a Census API key so I can work with Census data in R later\nStarted getting familiar with working in RStudio and R code even though I have no previous R experience"
+    "text": "…"
   },
   {
     "objectID": "weekly-notes/week-02.html#what-we-did",
     "href": "weekly-notes/week-02.html#what-we-did",
-    "title": "Week 1: Getting Set Up",
+    "title": "Week 2: dplyr & Census",
     "section": "",
-    "text": "Set up R, RStudio, Quarto, and GitHub Desktop for the course\nLearned how RStudio, GitHub, and my live portfolio website work together\nLearned the difference between source files (.qmd) and the output files in docs/\nCreated my own MUSA 5080 portfolio using a GitHub template\nLearned the basic workflow: edit → save → render → commit → push\nUsed Quarto to render my files into a website\nLearned how GitHub Pages publishes the portfolio online\nSet up a Census API key so I can work with Census data in R later\nStarted getting familiar with working in RStudio and R code even though I have no previous R experience"
+    "text": "…"
   },
   {
     "objectID": "weekly-notes/week-02.html#key-concepts",
     "href": "weekly-notes/week-02.html#key-concepts",
-    "title": "Week 1: Getting Set Up",
+    "title": "Week 2: dplyr & Census",
     "section": "Key Concepts",
     "text": "Key Concepts\nThree places a file can live:\n\nMy computer — where I edit\nGitHub.com — where it’s stored\nMy live site — what the world sees\n\nThe loop: Edit → Save → Render → Commit → Push → wait → refresh\n\nsessionInfo()$R.version$version.string\n\n[1] \"R version 4.6.1 (2026-06-24)\""
   },
   {
     "objectID": "weekly-notes/week-02.html#reflection",
     "href": "weekly-notes/week-02.html#reflection",
-    "title": "Week 1: Getting Set Up",
+    "title": "Week 2: dplyr & Census",
     "section": "Reflection",
-    "text": "Reflection\n\nWhat I want out of this course: I am hoping to get more comfortable with R and learn how to use it for spatial analysis and planning. I have used GIS before, so I’m interested in seeing how R can add to the skills I already have. I also want to get better at working with data and understanding how it can be used to answer planning and policy questions.\nOne thing I’m nervous about: I am nervous about R because I have never used it before. I am also a little worried about keeping up when we start getting into modeling and machine learning, but hoping it will get easier as I practice."
+    "text": "Reflection"
   },
   {
     "objectID": "weekly-notes/week-02.html#questions-i-still-have",
     "href": "weekly-notes/week-02.html#questions-i-still-have",
-    "title": "Week 1: Getting Set Up",
+    "title": "Week 2: dplyr & Census",
     "section": "Questions I Still Have",
-    "text": "Questions I Still Have\n\nHow will R fit into the GIS skills I already have?\nWhat kinds of projects or analyses will we be able to do with R by the end of the course?"
+    "text": "Questions I Still Have"
   }
 ]

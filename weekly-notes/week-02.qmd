@@ -1,22 +1,14 @@
 ---
-title: "Week 1: Getting Set Up"
-description: "First impressions, and getting the workflow running."
-date: 2026-08-28
+title: "Week 2: dplyr & Census"
+description: "Table functions and ACS data."
+date: 2026-09-04
 ---
 
 ## What We Did
 
 <!-- CHANGE THIS: replace with your own notes -->
 
-- Set up R, RStudio, Quarto, and GitHub Desktop for the course
-- Learned how RStudio, GitHub, and my live portfolio website work together
-- Learned the difference between source files (.qmd) and the output files in docs/
-- Created my own MUSA 5080 portfolio using a GitHub template
-- Learned the basic workflow: edit → save → render → commit → push
-- Used Quarto to render my files into a website
-- Learned how GitHub Pages publishes the portfolio online
-- Set up a Census API key so I can work with Census data in R later
-- Started getting familiar with working in RStudio and R code even though I have no previous R experience
+...
 
 ## Key Concepts
 
@@ -36,11 +28,7 @@ sessionInfo()$R.version$version.string
 
 <!-- CHANGE THIS: 3-4 sentences -->
 
-What I want out of this course: I am hoping to get more comfortable with R and learn how to use it for spatial analysis and planning. I have used GIS before, so I’m interested in seeing how R can add to the skills I already have. I also want to get better at working with data and understanding how it can be used to answer planning and policy questions.
-
-One thing I'm nervous about: I am nervous about R because I have never used it before. I am also a little worried about keeping up when we start getting into modeling and machine learning, but hoping it will get easier as I practice.
 
 ## Questions I Still Have
 
-- How will R fit into the GIS skills I already have?
-- What kinds of projects or analyses will we be able to do with R by the    end of the course?
+- 
