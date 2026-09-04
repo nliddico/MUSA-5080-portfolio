@@ -1,33 +1,5 @@
 [
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Home",
-    "section": "",
-    "text": "Welcome to my portfolio for MUSA 5080: Public Policy Analytics at the University of Pennsylvania.\nThis site documents my work in the Master of Urban Spatial Analytics program — weekly notes, course assignments, and a final project applying data analysis to urban policy questions.\n\n\n\nI’m a student in the MCP program at Penn. My background is in Environmental Lab & Field Sciences specializing in GIS and Political Science. I’m interested in climate resilience and brownfield revitalization.\n\n\n\n\nWeekly Notes — what I’m learning each week\nAssignments — analyses completed for the course\nAbout — more background and how to reach me\n\n\n\n\n\n\nEmail: nliddico@upenn.edu\nGitHub: @nliddico"
-  },
-  {
-    "objectID": "index.html#about-me",
-    "href": "index.html#about-me",
-    "title": "Home",
-    "section": "",
-    "text": "I’m a student in the MCP program at Penn. My background is in Environmental Lab & Field Sciences specializing in GIS and Political Science. I’m interested in climate resilience and brownfield revitalization."
-  },
-  {
-    "objectID": "index.html#what-youll-find-here",
-    "href": "index.html#what-youll-find-here",
-    "title": "Home",
-    "section": "",
-    "text": "Weekly Notes — what I’m learning each week\nAssignments — analyses completed for the course\nAbout — more background and how to reach me"
-  },
-  {
-    "objectID": "index.html#get-in-touch",
-    "href": "index.html#get-in-touch",
-    "title": "Home",
-    "section": "",
-    "text": "Email: nliddico@upenn.edu\nGitHub: @nliddico"
-  },
-  {
     "objectID": "weekly-notes/week-01.html",
     "href": "weekly-notes/week-01.html",
     "title": "Week 1: Getting Set Up",
@@ -49,13 +21,6 @@
     "text": "Key Concepts\nThree places a file can live:\n\nMy computer — where I edit\nGitHub.com — where it’s stored\nMy live site — what the world sees\n\nThe loop: Edit → Save → Render → Commit → Push → wait → refresh\n\nsessionInfo()$R.version$version.string\n\n[1] \"R version 4.6.1 (2026-06-24)\""
   },
   {
-    "objectID": "weekly-notes/week-01.html#proving-r-works",
-    "href": "weekly-notes/week-01.html#proving-r-works",
-    "title": "Week 1: Getting Set Up",
-    "section": "Proving R Works",
-    "text": "Proving R Works\nThe chunk below runs when this page renders. If you can see a result underneath it on your published site, R and Quarto are talking to each other correctly.\n\nsessionInfo()$R.version$version.string\n\n[1] \"R version 4.6.1 (2026-06-24)\""
-  },
-  {
     "objectID": "weekly-notes/week-01.html#reflection",
     "href": "weekly-notes/week-01.html#reflection",
     "title": "Week 1: Getting Set Up",
@@ -68,6 +33,13 @@
     "title": "Week 1: Getting Set Up",
     "section": "Questions I Still Have",
     "text": "Questions I Still Have\n\nHow will R fit into the GIS skills I already have?\nWhat kinds of projects or analyses will we be able to do with R by the end of the course?"
+  },
+  {
+    "objectID": "weekly-notes/index.html",
+    "href": "weekly-notes/index.html",
+    "title": "Weekly Notes",
+    "section": "",
+    "text": "Week 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\n\n\nWeek 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
   },
   {
     "objectID": "about.html",
@@ -105,11 +77,32 @@
     "text": "No matching items"
   },
   {
-    "objectID": "weekly-notes/index.html",
-    "href": "weekly-notes/index.html",
-    "title": "Weekly Notes",
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Home",
     "section": "",
-    "text": "Week 1: Getting Set Up\n\n\nFirst impressions, and getting the workflow running.\n\n\n\n\n\nAug 28, 2026\n\n\n\n\n\nNo matching items"
+    "text": "Welcome to my portfolio for MUSA 5080: Public Policy Analytics at the University of Pennsylvania.\nThis site documents my work in the Master of Urban Spatial Analytics program — weekly notes, course assignments, and a final project applying data analysis to urban policy questions.\n\n\n\nI’m a student in the MCP program at Penn. My background is in Environmental Lab & Field Sciences specializing in GIS and Political Science. I’m interested in climate resilience and brownfield revitalization.\n\n\n\n\nWeekly Notes — what I’m learning each week\nAssignments — analyses completed for the course\nAbout — more background and how to reach me\n\n\n\n\n\n\nEmail: nliddico@upenn.edu\nGitHub: @nliddico"
+  },
+  {
+    "objectID": "index.html#about-me",
+    "href": "index.html#about-me",
+    "title": "Home",
+    "section": "",
+    "text": "I’m a student in the MCP program at Penn. My background is in Environmental Lab & Field Sciences specializing in GIS and Political Science. I’m interested in climate resilience and brownfield revitalization."
+  },
+  {
+    "objectID": "index.html#what-youll-find-here",
+    "href": "index.html#what-youll-find-here",
+    "title": "Home",
+    "section": "",
+    "text": "Weekly Notes — what I’m learning each week\nAssignments — analyses completed for the course\nAbout — more background and how to reach me"
+  },
+  {
+    "objectID": "index.html#get-in-touch",
+    "href": "index.html#get-in-touch",
+    "title": "Home",
+    "section": "",
+    "text": "Email: nliddico@upenn.edu\nGitHub: @nliddico"
   },
   {
     "objectID": "data/readme.html",
@@ -117,5 +110,40 @@
     "title": "",
     "section": "",
     "text": "Code\n\n\n\n\nData files for MUSA 5080\nDownload assignment data from Canvas and save it here. Do not rename the files! Have a nice day :)"
+  },
+  {
+    "objectID": "weekly-notes/week-02.html",
+    "href": "weekly-notes/week-02.html",
+    "title": "Week 1: Getting Set Up",
+    "section": "",
+    "text": "Set up R, RStudio, Quarto, and GitHub Desktop for the course\nLearned how RStudio, GitHub, and my live portfolio website work together\nLearned the difference between source files (.qmd) and the output files in docs/\nCreated my own MUSA 5080 portfolio using a GitHub template\nLearned the basic workflow: edit → save → render → commit → push\nUsed Quarto to render my files into a website\nLearned how GitHub Pages publishes the portfolio online\nSet up a Census API key so I can work with Census data in R later\nStarted getting familiar with working in RStudio and R code even though I have no previous R experience"
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#what-we-did",
+    "href": "weekly-notes/week-02.html#what-we-did",
+    "title": "Week 1: Getting Set Up",
+    "section": "",
+    "text": "Set up R, RStudio, Quarto, and GitHub Desktop for the course\nLearned how RStudio, GitHub, and my live portfolio website work together\nLearned the difference between source files (.qmd) and the output files in docs/\nCreated my own MUSA 5080 portfolio using a GitHub template\nLearned the basic workflow: edit → save → render → commit → push\nUsed Quarto to render my files into a website\nLearned how GitHub Pages publishes the portfolio online\nSet up a Census API key so I can work with Census data in R later\nStarted getting familiar with working in RStudio and R code even though I have no previous R experience"
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#key-concepts",
+    "href": "weekly-notes/week-02.html#key-concepts",
+    "title": "Week 1: Getting Set Up",
+    "section": "Key Concepts",
+    "text": "Key Concepts\nThree places a file can live:\n\nMy computer — where I edit\nGitHub.com — where it’s stored\nMy live site — what the world sees\n\nThe loop: Edit → Save → Render → Commit → Push → wait → refresh\n\nsessionInfo()$R.version$version.string\n\n[1] \"R version 4.6.1 (2026-06-24)\""
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#reflection",
+    "href": "weekly-notes/week-02.html#reflection",
+    "title": "Week 1: Getting Set Up",
+    "section": "Reflection",
+    "text": "Reflection\n\nWhat I want out of this course: I am hoping to get more comfortable with R and learn how to use it for spatial analysis and planning. I have used GIS before, so I’m interested in seeing how R can add to the skills I already have. I also want to get better at working with data and understanding how it can be used to answer planning and policy questions.\nOne thing I’m nervous about: I am nervous about R because I have never used it before. I am also a little worried about keeping up when we start getting into modeling and machine learning, but hoping it will get easier as I practice."
+  },
+  {
+    "objectID": "weekly-notes/week-02.html#questions-i-still-have",
+    "href": "weekly-notes/week-02.html#questions-i-still-have",
+    "title": "Week 1: Getting Set Up",
+    "section": "Questions I Still Have",
+    "text": "Questions I Still Have\n\nHow will R fit into the GIS skills I already have?\nWhat kinds of projects or analyses will we be able to do with R by the end of the course?"
   }
 ]

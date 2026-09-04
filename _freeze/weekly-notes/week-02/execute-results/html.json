@@ -1,0 +1,15 @@
+{
+  "hash": "792454bb4f513ec138dc18c6c0d8c738",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Week 1: Getting Set Up\"\ndescription: \"First impressions, and getting the workflow running.\"\ndate: 2026-08-28\n---\n\n## What We Did\n\n<!-- CHANGE THIS: replace with your own notes -->\n\n- Set up R, RStudio, Quarto, and GitHub Desktop for the course\n- Learned how RStudio, GitHub, and my live portfolio website work together\n- Learned the difference between source files (.qmd) and the output files in docs/\n- Created my own MUSA 5080 portfolio using a GitHub template\n- Learned the basic workflow: edit → save → render → commit → push\n- Used Quarto to render my files into a website\n- Learned how GitHub Pages publishes the portfolio online\n- Set up a Census API key so I can work with Census data in R later\n- Started getting familiar with working in RStudio and R code even though I have no previous R experience\n\n## Key Concepts\n\nThree places a file can live:\n\n1. **My computer** — where I edit\n2. **GitHub.com** — where it's stored\n3. **My live site** — what the world sees\n\nThe loop: **Edit → Save → Render → Commit → Push → wait → refresh**\n\n\n::: {.cell}\n\n```{.r .cell-code}\nsessionInfo()$R.version$version.string\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] \"R version 4.6.1 (2026-06-24)\"\n```\n\n\n:::\n:::\n\n\n## Reflection\n\n<!-- CHANGE THIS: 3-4 sentences -->\n\nWhat I want out of this course: I am hoping to get more comfortable with R and learn how to use it for spatial analysis and planning. I have used GIS before, so I’m interested in seeing how R can add to the skills I already have. I also want to get better at working with data and understanding how it can be used to answer planning and policy questions.\n\nOne thing I'm nervous about: I am nervous about R because I have never used it before. I am also a little worried about keeping up when we start getting into modeling and machine learning, but hoping it will get easier as I practice.\n\n## Questions I Still Have\n\n- How will R fit into the GIS skills I already have?\n- What kinds of projects or analyses will we be able to do with R by the    end of the course?\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
