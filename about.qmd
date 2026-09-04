@@ -17,7 +17,7 @@ As I continue my studies at Penn, I hope to build on these skills and learn how 
 <!-- CHANGE THIS: update this through the semester as it becomes true -->
 
 - **Languages & Tools:** R, Quarto, Git
-- **Spatial:** (add as you learn)
+- **Spatial:** ArcGIS Pro, Google Earth Engine
 - **Data:** US Census / ACS via `tidycensus`
 
 ## Contact
