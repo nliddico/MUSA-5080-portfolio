@@ -1,0 +1,167 @@
+---
+title: "Assignment 2: Who Do We Know the Least About?"
+subtitle: "Measuring uncertainty in American Community Survey data"
+author: "Nicole Liddicoat"
+date: September 9, 2026
+format:
+  html:
+    toc: true
+    code-fold: false
+execute:
+  warning: false
+  message: false
+---
+
+
+## Setup
+
+```{r}
+library(tidyverse)
+library(tidycensus)
+```
+
+---
+
+## The question
+
+Every number the American Community Survey publishes is an estimate drawn from a
+sample, not a count. That means every number comes with a margin of error — a
+statement about how wrong it might be.
+
+Most people ignore it. In this assignment, you won't.
+
+
+
+**In this analysis, I look at total commuters across counties in California, and
+ask which communities we measure most and least reliably. Census data helps inform decisions about transporation and infrastructure, so differences in data reliability can affect how communities are represented in those decisions.**
+
+---
+
+## Choosing what to measure
+
+```{r}
+my_state <- "CA"        
+my_variable <- "B08303_001"     
+```
+
+## Pulling the data
+
+```{r}
+county_data <- get_acs(
+  geography = "county",
+  variables = my_variable,
+  state = my_state,
+  year = 2023,
+  survey = "acs5"
+)
+```
+
+Let's look at what came back.
+
+```{r}
+dim(county_data)
+head(county_data)
+```
+
+
+
+
+**California has 58 counties, which matches the 58 rows returned.**
+
+---
+
+## How big is the margin of error?
+
+A margin of error of 3,000 means something very different for an estimate of 20,000
+than for an estimate of 200,000. To compare across places, we need it as a
+percentage.
+
+```{r}
+county_data <- county_data %>%
+  mutate(moe_pct = moe / estimate * 100)
+```
+
+Now sort to see which counties are measured least reliably.
+
+```{r}
+county_data %>%
+  arrange(desc(moe_pct)) %>%
+  select(NAME, estimate, moe, moe_pct) %>%
+  head(10)
+```
+
+**Alpine County, California has the largest margin of error relative to its estimate, making it the least reliable county in the analysis. Its margin of error percentage is 25.4%.**
+
+---
+
+## Sorting counties into reliability categories
+
+```{r}
+county_data <- county_data %>%
+  mutate(reliability = case_when(
+    moe_pct < 3  ~ "High confidence",
+    moe_pct < 8 ~ "Moderate",
+    TRUE         ~ "Low confidence"
+  ))
+
+count(county_data, reliability)
+```
+
+
+I chose 3% and 8% as the cutoffs because they created a more useful spread of counties across the three reliability categories rather than putting almost every county into one group. The 3% cutoff represents relatively low uncertainty, while 8% identifies estimates with noticeably greater uncertainty. With these cutoffs, 36 counties are high confidence, 17 are moderate, and 5 are low confidence, making it easier to compare counties with different levels of reliability.
+
+---
+
+## Is the margin of error bigger in small places?
+
+To answer this we need population and our variable side by side, in the same row.
+That means a **wide** pull.
+
+```{r}
+county_wide <- get_acs(
+  geography = "county",
+  variables = c(myvar = my_variable,
+                pop   = "B01003_001"),
+  state = my_state,
+  year = 2023,
+  survey = "acs5",
+  output = "wide"
+)
+
+county_wide %>%
+  select(NAME, myvarE, myvarM, popE) %>%
+  head(10)
+```
+
+
+
+```{r}
+county_wide <- county_wide %>%
+  mutate(moe_pct = myvarM / myvarE * 100) %>%
+  mutate(reliability = case_when(
+    moe_pct < 3  ~ "High confidence",
+    moe_pct < 8 ~ "Moderate",
+    TRUE         ~ "Low confidence"
+  ))
+```
+
+Now compare the average population of counties in each reliability category.
+
+```{r}
+county_wide %>%
+  group_by(reliability) %>%
+  summarize(
+    n_counties = n(),
+    avg_population = mean(popE)
+  )
+```
+
+
+
+**The results have a strong relationship between county population and the reliability of the estimates. High-confidence counties have an average population of 1,065,959, compared with only 48,218 for moderate-confidence counties, and 9,713 for low-confidence counties. Smaller communities tend to have greater uncertainty in their estimates because fewer people are represented in the survey sample.**
+
+---
+
+## What this means for policy
+
+The counties with the least reliable commuter estimates are concentrated among California's smaller, more rural communities. Alpine County has the highest relative margin of error, with an estimated 575 commuters and a margin of error of 146, or 25.4% of its estimate. Sierra County has only 921 estimated commuters and an MOE of 167, giving it an 18.1% margin of error. Trinity County also has substantial uncertainty, with 3,673 commuters and a 14.4% margin of error, while Modoc and Plumas counties have margins of error of 10.3% and 9.43%, respectively. This is very different from a large county like Los Angeles, which has nearly 4 million estimated commuters but a relative margin of error of only 0.31%. The difference reflects how the ACS is based on a sample rather than a complete count of every household. Smaller counties have fewer sampled households representing their communities, so their estimates can be less precise. This creates a potential problem when Census data is used for transportation planning or infrastructure funding. If a state agency treated every county’s commuter estimate as equally certain, it could make decisions based on differences that are partly the result of sampling uncertainty. For example, Alpine County’s estimate of 575 could be substantially higher or lower than its true value. Rural counties such as Alpine, Sierra, and Trinity could therefore have their transportation needs underestimated or overestimated when compared with larger counties whose estimates are much more precise.
