@@ -1,0 +1,220 @@
+---
+title: "Verify the Claim: Poverty Change in Philadelphia Neighborhoods"
+author: "Nicole Liddicoat"
+date: September 25, 2026
+format:
+  html:
+    toc: true
+    code-fold: true
+    code-summary: "Show code"
+    embed-resources: true
+---
+
+```{r}
+#| include: false
+library(tidyverse)
+library(tidycensus)
+library(gt)
+```
+
+**Article analyzed:** Lubrano, Alfred. "New Census figures on Philly neighborhoods show inequality, high numbers of whites living in poverty." WHYY / Philadelphia Inquirer, December 6, 2018. <https://whyy.org/articles/new-census-figures-on-philly-neighborhoods-show-inequality-high-numbers-of-whites-living-in-poverty/>
+
+## Part 1: Reconstruct
+
+The article reports neighborhood poverty rates without naming its source table, so I reconstructed them using the standard ACS poverty table, B17001 ("Poverty Status in the Past 12 Months by Sex by Age"). The poverty rate for each tract is the number of people below the poverty level (B17001_002) divided by the number of people for where poverty status is determined (B17001_001). I used that second variable as the denominator rather than total population because the Census Bureau does not assess poverty for everyone. People living in group quarters such as college dorms, prisons, or nursing homes are excluded, so dividing by total population would be an understatement. I used the ACS 5-year estimates (acs5) for 2006–2010 (year = 2010) and 2013–2017 (year = 2017), the two periods the article compares. The 5-year survey is the only option at this scale: the 1-year ACS is not published for areas under 65,000 people, which includes every census tract.
+
+The article does not state which table it used, so I assume B17001, the Bureau's standard poverty measure. More importantly, the article reports figures for named neighborhoods like Fairhill and Eastwick, which are not Census geographies, and it does not publish which tracts it combined to build them. I worked at the tract level, so my figures will not match the article's exactly. Both periods use 2010 census tract boundaries, so each tract refers to the same area in both years. The two periods do not overlap because the first ends in 2010 and the second begins in 2013. That means they are independent samples, and a difference between them can be tested statistically. Each estimate is an average of five years of data, so the comparison describes the difference between two five-year averages, roughly centered on 2008 and 2015, instead than a change between two exact years.
+```{r}
+#| message: false
+#| warning: false
+
+# Week 3 get_poverty() function
+get_poverty <- function(yr) {
+  get_acs(
+    geography = "tract",
+    state     = "PA",
+    county    = "Philadelphia",
+    variables = c(below_poverty = "B17001_002",
+                  total         = "B17001_001"),
+    year      = yr,
+    survey    = "acs5",
+    output    = "wide"
+  ) %>%
+    mutate(
+      share     = below_povertyE / totalE,
+      # A rate is a proportion, so its MOE comes from moe_prop(),
+      # not from the count's MOE
+      share_moe = moe_prop(below_povertyE, totalE,
+                           below_povertyM, totalM),
+      period    = paste0(yr - 4, "-", yr)
+    )
+}
+
+poverty_raw <- bind_rows(
+  get_poverty(2010),
+  get_poverty(2017)
+)
+```
+
+## Part 2: Test
+
+### Missing values
+
+```{r}
+# Look at the NA rows 
+poverty_raw %>%
+  filter(is.na(share)) %>%
+  select(GEOID, NAME, period, totalE, below_povertyE)
+```
+
+[WRITE: Fifteen tract-years came back with no poverty rate, and every one of them had zero people in the poverty universe, so the rate is 0 divided by 0, which doe snot give us a real number. These are places where basically nobody lives, like parks, the airport, or industrial areas, so there's no poverty rate to measure. I removed them before calculating reliability and change, since leaving them in would add blanks without telling us anything about where people actually live.]
+
+```{r}
+# Same filter(total_popE > 0) 
+poverty <- poverty_raw %>%
+  filter(totalE > 0) %>%
+  mutate(
+    # CV
+    cv = (share_moe / 1.645) / share * 100,
+    reliability = case_when(
+      share == 0 ~ "Undefined (rate is 0)",   # CV would divide by zero
+      cv < 12    ~ "Reliable",
+      cv <= 40   ~ "Somewhat reliable",
+      TRUE       ~ "Unreliable"
+    )
+  )
+
+poverty %>%
+  count(period, reliability)
+```
+
+### Reliability table
+
+```{r}
+poverty %>%
+  filter(period == "2013-2017", share > 0) %>%
+  mutate(
+    dot = case_when(
+      cv < 12  ~ "🟢",
+      cv <= 40 ~ "🟡",
+      TRUE     ~ "🔴"
+    ),
+    tract = str_remove(NAME, ", Philadelphia County, Pennsylvania")
+  ) %>%
+  arrange(desc(cv)) %>%
+  slice_head(n = 20) %>%
+  select(dot, tract, share, share_moe, cv, reliability) %>%
+  gt() %>%
+  fmt_percent(columns = c(share, share_moe), decimals = 1) %>%
+  fmt_number(columns = cv, decimals = 1) %>%
+  cols_label(
+    dot         = "",
+    tract       = "Tract",
+    share       = "Poverty rate",
+    share_moe   = "MOE",
+    cv          = "CV (%)",
+    reliability = "Reliability"
+  ) %>%
+  cols_align(align = "center", columns = dot) %>%
+  tab_header(
+    title    = "The 20 least reliable tract poverty rates in Philadelphia",
+    subtitle = "ACS 2013–2017 5-year estimates, table B17001"
+  ) %>%
+  tab_source_note(
+    "Reliability thresholds follow Jurjevich et al. (2018): CV < 12% reliable, 12–40% somewhat reliable, > 40% unreliable. Tracts with a 0% rate are excluded because their CV is undefined."
+  )
+```
+
+### Change and significance
+
+```{r}
+# Put the two periods side by side 
+# Keep only GEOID as the ID so tracts match even if NAME text differs by year
+poverty_wide <- poverty %>%
+  select(GEOID, period, share, share_moe) %>%
+  pivot_wider(
+    names_from  = period,
+    values_from = c(share, share_moe)
+  )
+
+nrow(poverty_wide)   
+
+# Same z-test but applied to rates instead of counts
+poverty_tested <- poverty_wide %>%
+  filter(!is.na(`share_2006-2010`), !is.na(`share_2013-2017`)) %>%
+  mutate(
+    change   = `share_2013-2017` - `share_2006-2010`,
+    se_1     = `share_moe_2006-2010` / 1.645,
+    se_2     = `share_moe_2013-2017` / 1.645,
+    se_diff  = sqrt(se_1^2 + se_2^2),
+    moe_diff = se_diff * 1.645,
+    z        = change / se_diff,
+    significant = abs(z) > 1.645,       # 90% confidence
+    result = case_when(
+      !significant ~ "No detectable change",
+      change > 0   ~ "Detectable increase",
+      TRUE         ~ "Detectable decrease"
+    )
+  )
+
+poverty_tested %>%
+  count(result)
+```
+
+Only 63 of 376 tracts (about 17%) had a poverty rate change big enough to be real (not plagued by survey noise): 36 went up and 27 went down. The other 313 tracts (about 83%) showed no detectable change.
+
+### Error bar chart
+
+```{r}
+#| fig-height: 7
+poverty_tested %>%
+  arrange(desc(abs(change))) %>%
+  slice_head(n = 25) %>%
+  mutate(tract = str_remove(GEOID, "^42101")) %>%
+  ggplot(aes(x = reorder(tract, change), y = change, color = significant)) +
+  geom_point() +
+  geom_errorbar(aes(ymin = change - moe_diff,
+                    ymax = change + moe_diff), width = 0.3) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  coord_flip() +
+  theme_minimal() +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title    = "The 25 largest apparent changes in tract poverty rates",
+    subtitle = "Philadelphia, ACS 2006–2010 vs. 2013–2017. Bars show the 90% margin of error.",
+    x        = "Census tract",
+    y        = "Change in poverty rate (percentage points)",
+    color    = "Significant at 90%?"
+  )
+```
+
+Even among the 25 biggest apparent changes, 4 have error bars that cross zero, so we cannot say those changes are real. Tract 989100 is the extreme case because its margin of error runs from about −200 to +245 percentage points, which is wider than a poverty rate can even move.
+
+### Additional visualization
+
+```{r}
+# Each point is a tract. 
+ggplot(poverty_tested, aes(x = moe_diff, y = change, color = result)) +
+  geom_point(alpha = 0.6) +
+  geom_hline(yintercept = 0, linetype = "dashed") +
+  theme_minimal() +
+  scale_x_continuous(labels = scales::percent) +
+  scale_y_continuous(labels = scales::percent) +
+  labs(
+    title    = "Most tract-level changes are smaller than their margins of error",
+    subtitle = "Philadelphia tracts, poverty rate change 2006–2010 to 2013–2017",
+    x        = "Margin of error of the change (90%)",
+    y        = "Change in poverty rate",
+    color    = NULL
+  )
+```
+
+## Part 3: Adjudicate
+
+The article's biggest-picture claim holds up narrowly. Some parts of Philadelphia did become poorer between 2006–2010 and 2013–2017. Thirty-six tracts show a poverty increase big enough to rule out survey noise, so the idea that poverty jumped in certain places is supported. But the article's overall story, that poverty kept rising "robustly" across the city after the recession, is not supported. Most tracts (313 of 376, or 83%) show no detectable change at all, and detectable decreases (27 tracts) were almost as common as detectable increases (36). The ranking claims did not hold true either. Calling Eastwick's jump from 12% to 26% the "greatest increase of any community" treats estimates like exact numbers. Shown by the error bar chart, even the biggest apparent changes have wide, overlapping margins of error, so there is no way to say which place changed the most.
+
+A lot of the article's claims cannot even be determined from my analysis. The neighborhood numbers for Fairhill (61% poverty), Eastwick, Holmesburg, and Mayfair depend on tract groupings the article never published, so I could not recreate them exactly. The white poverty claims, including the headline, the 22 majority-white neighborhoods where poverty rose, and Holmesburg going from 2% to 19%, would need the race-specific poverty tables (B17001A–I). The citywide white poverty jump from 14.8% to 19.4% comes from the 1-year ACS, which is a different survey than the more relibale 5-year estimates I used. And the Tioga-Nicetown income drop is about median household income, a whole different variable. Neighborhoods starting at 1–2% poverty, like Holmesburg and Mayfair, probably had really shaky baseline estimates, which makes those dramatic jumps even harder to trust without seeing the margins of error.
+
+## Part 4: Rewrite
+
+Philadelphia's poverty problem did not spread across the whole city after the Great Recession. It dug in deeper in specific places. New federal survey data comparing 2006–2010 with 2013–2017 show that poverty clearly rose in 36 of the city's 376 census tracts, while it clearly fell in 27. Across most of Philadelphia, the numbers barely moved once you account for the survey's margin of error. That still leaves a city where roughly one in four people lives in poverty, and pockets like Fairhill where the need is overwhelming. But the survey can't settle which neighborhood got hit hardest, and dramatic jumps in places with small populations may say more about sampling than about real change.
